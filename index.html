@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kevin Gould</title>
+<meta name="description" content="Kevin Gould — data engineer and AI-agent builder. Founder of Par 72." />
+<meta property="og:title" content="Kevin Gould" />
+<meta property="og:description" content="Data engineer and AI-agent builder. Founder of Par 72." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://khgould.com" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E⛳%3C/text%3E%3C/svg%3E" />
+
+<style>
+  :root {
+    --paper: #fbfaf6;
+    --ink: #1c1b18;
+    --soft: #6b6a64;
+    --faint: #b8b6ad;
+    --rule: #e6e3da;
+    --link: #1f6b46;        /* par-72 green */
+    --link-hover: #0e3f28;
+    --measure: 39rem;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 18px/1.65 "Iowan Old Style", "Charter", "Palatino Linotype", "Palatino", "Georgia", serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding: clamp(2.6rem, 7vw, 6rem) 1.4rem 4rem;
+  }
+  .page { max-width: var(--measure); margin: 0 auto; }
+
+  /* wider band just for the gallery */
+  .bleed { max-width: 60rem; margin-left: auto; margin-right: auto; }
+
+  a { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(31,107,70,0.32); transition: color .15s, border-color .15s; }
+  a:hover { color: var(--link-hover); border-color: var(--link-hover); }
+
+  h1 {
+    font-size: clamp(2.1rem, 6vw, 3rem);
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    margin: 0 0 .25rem;
+  }
+  .sub { color: var(--soft); font-style: italic; font-size: 1.12rem; margin: 0; }
+
+  nav { margin: 1.4rem 0 2.4rem; font-size: .98rem; }
+  nav a { color: var(--soft); border: none; margin-right: 1.1rem; }
+  nav a:hover { color: var(--ink); }
+
+  .intro { font-size: 1.16rem; margin: 0 0 1.1rem; }
+
+  section { margin-top: 3.4rem; }
+  h2 {
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-weight: 600;
+    color: var(--soft);
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    margin: 0 0 1.3rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ---- lists (projects / writing) ---- */
+  .entries { margin: 0; padding: 0; list-style: none; }
+  .entries li { margin: 0 0 1.35rem; }
+  .entries .t { font-size: 1.12rem; }
+  .entries .d { color: var(--soft); display: block; font-size: 1rem; }
+  .entries .meta { color: var(--faint); font-family: ui-monospace, "SF Mono", "Menlo", monospace; font-size: .76rem; letter-spacing: .04em; }
+
+  /* ---- photo gallery ---- */
+  .gallery-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .hint { color: var(--faint); font-family: ui-monospace, "SF Mono", "Menlo", monospace; font-size: .74rem; letter-spacing: .03em; }
+  .hint kbd {
+    font: inherit; border: 1px solid var(--rule); border-bottom-width: 2px;
+    border-radius: 4px; padding: .05em .4em; color: var(--soft); background: #fff;
+  }
+
+  .gallery {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: .25rem 0 1rem;
+    margin-top: .4rem;
+    cursor: grab;
+    scrollbar-width: none;            /* Firefox */
+    outline: none;
+  }
+  .gallery::-webkit-scrollbar { display: none; }   /* WebKit */
+  .gallery.dragging { cursor: grabbing; scroll-behavior: auto; }
+  .gallery:focus-visible { box-shadow: 0 0 0 2px var(--link); border-radius: 6px; }
+
+  .shot {
+    flex: 0 0 auto;
+    width: clamp(15rem, 64%, 34rem);
+    scroll-snap-align: center;
+    user-select: none;
+  }
+  .shot figure { margin: 0; }
+  .shot img, .shot .ph {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 3px;
+    background: #efece3;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+  /* placeholder look (until real photos are added) */
+  .shot .ph {
+    display: grid; place-items: center;
+    color: var(--faint);
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size: .8rem; letter-spacing: .1em;
+    background:
+      repeating-linear-gradient(45deg, #f3f0e8 0 12px, #efece3 12px 24px);
+  }
+  .shot figcaption { margin-top: .5rem; color: var(--soft); font-size: .92rem; font-style: italic; }
+
+  .gallery-nav { display: flex; gap: .6rem; margin-top: .2rem; }
+  .gallery-nav button {
+    font: inherit; font-size: 1.1rem; line-height: 1;
+    background: #fff; color: var(--ink);
+    border: 1px solid var(--rule); border-radius: 6px;
+    width: 2.3rem; height: 2.1rem; cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .gallery-nav button:hover { border-color: var(--link); color: var(--link); }
+
+  footer { margin-top: 4rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); color: var(--soft); font-size: .92rem; }
+  footer a { color: var(--soft); }
+  footer a:hover { color: var(--ink); }
+  .footlinks { margin: 0 0 .4rem; }
+  .footlinks a { margin-right: 1rem; }
+
+  @media (max-width: 560px) {
+    body { padding-top: 2.4rem; }
+    .shot { width: 82%; }
+  }
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <header>
+    <h1>Kevin Gould</h1>
+    <p class="sub">Data engineer &amp; AI-agent builder</p>
+    <nav>
+      <a href="#photos">Photos</a>
+      <a href="#projects">Projects</a>
+      <a href="#writing">Writing</a>
+      <a href="https://par72.us">Par&nbsp;72&nbsp;↗</a>
+    </nav>
+  </header>
+
+  <p class="intro">
+    I spent a decade building data pipelines and platforms; now I build
+    AI agents and the tooling around them. I'm the founder of
+    <a href="https://par72.us">Par&nbsp;72</a>, a small software &amp; AI
+    agency. I've contributed to open source like Apache&nbsp;Airflow and
+    DataHub, and I play a lot of hockey.
+  </p>
+
+</div>
+
+<!-- ===================== PHOTOS ===================== -->
+<section id="photos" class="bleed">
+  <div class="page" style="max-width:none;">
+    <div class="gallery-head">
+      <h2 style="border:none;padding:0;margin:0;">Photos</h2>
+      <span class="hint">drag &nbsp;·&nbsp; scroll &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd></span>
+    </div>
+
+    <!--
+      TO ADD YOUR OWN PHOTOS:
+      1. Drop image files into the /photos folder (e.g. photos/skyline.jpg)
+      2. Replace each <div class="ph">…</div> below with:
+           <img src="photos/skyline.jpg" alt="Short description" loading="lazy" />
+      3. Edit the <figcaption> text. Add or remove <div class="shot"> blocks freely.
+    -->
+    <div class="gallery" id="gallery" tabindex="0" role="region" aria-label="Photo gallery, scroll horizontally">
+      <div class="shot"><figure><div class="ph">PHOTO&nbsp;01</div><figcaption>Replace me — drop a photo in /photos</figcaption></figure></div>
+      <div class="shot"><figure><div class="ph">PHOTO&nbsp;02</div><figcaption>A caption goes here.</figcaption></figure></div>
+      <div class="shot"><figure><div class="ph">PHOTO&nbsp;03</div><figcaption>A caption goes here.</figcaption></figure></div>
+      <div class="shot"><figure><div class="ph">PHOTO&nbsp;04</div><figcaption>A caption goes here.</figcaption></figure></div>
+      <div class="shot"><figure><div class="ph">PHOTO&nbsp;05</div><figcaption>A caption goes here.</figcaption></figure></div>
+    </div>
+
+    <div class="gallery-nav" aria-hidden="true">
+      <button type="button" data-dir="-1" title="Previous (←)">←</button>
+      <button type="button" data-dir="1" title="Next (→)">→</button>
+    </div>
+  </div>
+</section>
+
+<div class="page">
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <ul class="entries">
+      <li>
+        <span class="t"><a href="https://par72.us">Par&nbsp;72</a></span>
+        <span class="d">A budding software &amp; AI agency — building practical agents for real workflows.</span>
+      </li>
+      <li>
+        <span class="t"><a href="https://github.com/khgouldy/billy">Billy</a></span>
+        <span class="d">Drop a file, get a cross-filtered dashboard, refine by conversation. Local-first: DuckDB&nbsp;WASM&nbsp;+&nbsp;Mosaic.</span>
+      </li>
+      <li>
+        <span class="t"><a href="https://github.com/khgouldy/reachy-orchestrator">Reachy Orchestrator</a></span>
+        <span class="d">Mac-side LLM orchestrator for a Reachy Mini robot — conversation, vision, and speech.</span>
+      </li>
+      <li>
+        <span class="t"><a href="https://github.com/khgouldy/skills">Claude Code Skills</a></span>
+        <span class="d">A personal, open library of agent skills.</span>
+      </li>
+      <li>
+        <span class="t"><a href="https://github.com/khgouldy">More on GitHub →</a></span>
+        <span class="d">Everything else I'm tinkering with in the open.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== WRITING ===================== -->
+  <section id="writing">
+    <h2>Writing</h2>
+    <p style="color:var(--soft);margin-top:-.4rem;">
+      Occasional notes on data engineering and building with AI agents.
+    </p>
+    <ul class="entries">
+      <li>
+        <span class="meta">SOON</span><br />
+        <span class="t">First post coming soon.</span>
+        <span class="d">Add articles here as a title, one line, and a link.</span>
+      </li>
+      <!--
+        Template for a real article:
+        <li>
+          <span class="meta">2026 · 6 MIN</span><br />
+          <span class="t"><a href="https://...">Article title</a></span>
+          <span class="d">One-sentence blurb about the piece.</span>
+        </li>
+      -->
+    </ul>
+  </section>
+
+  <footer>
+    <p class="footlinks">
+      <a href="mailto:kevin@par72.us">kevin@par72.us</a>
+      <a href="https://github.com/khgouldy">GitHub</a>
+      <a href="https://www.linkedin.com/in/kevin-gould1">LinkedIn</a>
+      <a href="https://par72.us">Par&nbsp;72</a>
+    </p>
+    <p>© <span id="yr">2026</span> Kevin Gould</p>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  (function () {
+    var g = document.getElementById("gallery");
+    if (!g) return;
+
+    function step() {
+      var first = g.querySelector(".shot");
+      var gap = parseFloat(getComputedStyle(g).columnGap || getComputedStyle(g).gap || 16) || 16;
+      return first ? first.getBoundingClientRect().width + gap : g.clientWidth * 0.7;
+    }
+    function move(dir) { g.scrollBy({ left: dir * step(), top: 0, behavior: "smooth" }); }
+
+    // prev / next buttons
+    document.querySelectorAll(".gallery-nav button").forEach(function (b) {
+      b.addEventListener("click", function () { move(+b.dataset.dir); });
+    });
+
+    // arrow keys — globally when not typing, and always when gallery focused
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      var tag = (document.activeElement && document.activeElement.tagName) || "";
+      var typing = tag === "INPUT" || tag === "TEXTAREA";
+      if (typing) return;
+      e.preventDefault();
+      move(e.key === "ArrowRight" ? 1 : -1);
+    });
+
+    // translate vertical wheel into horizontal scroll over the gallery
+    g.addEventListener("wheel", function (e) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        g.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // click-and-drag to pan
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+    g.addEventListener("pointerdown", function (e) {
+      down = true; moved = 0; startX = e.clientX; startLeft = g.scrollLeft;
+      g.classList.add("dragging"); g.setPointerCapture(e.pointerId);
+    });
+    g.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX; moved = Math.max(moved, Math.abs(dx));
+      g.scrollLeft = startLeft - dx;
+    });
+    function release() { down = false; g.classList.remove("dragging"); }
+    g.addEventListener("pointerup", release);
+    g.addEventListener("pointercancel", release);
+    // swallow accidental link clicks after a real drag
+    g.addEventListener("click", function (e) { if (moved > 6) { e.preventDefault(); } }, true);
+  })();
+</script>
+</body>
+</html>
