@@ -1,0 +1,6 @@
+# roborev per-repo config: https://github.com/kenn-io/roborev
+# This committed file opts the repo in to automatic post-commit reviews.
+# Agent and model come from ~/.roborev/config.toml. Lockfiles (package-lock,
+# pnpm-lock, uv.lock, go.sum, ...) and .beads/ are excluded by roborev already.
+
+exclude_patterns = ["photos/**"]
