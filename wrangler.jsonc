@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "khgould",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-15",
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    { "pattern": "khgould.com", "custom_domain": true },
+    { "pattern": "www.khgould.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  // Contact form mail. Unrestricted binding: it can only send to addresses
+  // verified in this Cloudflare account's Email Routing. The actual addresses
+  // are Worker secrets (CONTACT_TO, CONTACT_FROM), set with `wrangler secret put`.
+  "send_email": [{ "name": "EMAIL" }],
+  "ratelimits": [
+    { "name": "CONTACT_LIMITER", "namespace_id": "7201", "simple": { "limit": 5, "period": 60 } }
+  ],
+  "observability": { "enabled": true }
+}
