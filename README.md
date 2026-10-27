@@ -33,14 +33,12 @@ npx wrangler dev       # local preview at http://localhost:8787
 npx wrangler deploy    # deploys to https://khgould.kevin-815.workers.dev
 ```
 
-## Going live on khgould.com (not done yet)
+## Live on khgould.com
 
-The `khgould.com` zone is on Cloudflare. Its apex records still point at the
-old Google Sites IPs (216.239.3x.21), which no longer serve a certificate for
-the domain, hence the 525. To go live, remove those old A/AAAA records and attach
-the domain to this Worker as a Custom Domain (`khgould.com`, optionally
-`www.khgould.com`), either in the dashboard or by adding a `routes` entry with
-`"custom_domain": true` to `wrangler.jsonc` and redeploying.
+`khgould.com` and `www.khgould.com` are attached to this Worker as Custom
+Domains via `routes` in `wrangler.jsonc` (Cloudflare manages their DNS records
+and certificates). The old Google Sites apex records were removed; a backup of
+the zone's DNS from before the switch is kept outside the repo.
 
 The old GitHub Pages version of this repo (`khgouldy.github.io`) served the
 repo root; after this change the site lives in `public/` and is served by the
