@@ -21,4 +21,3 @@ input[type=text],input[type=email],textarea{box-sizing:border-box;width:100%;fon
 .badges span{display:inline-block;width:88px;height:31px;box-sizing:border-box;border:1px solid #111;font:bold 9px/13px Verdana,sans-serif;text-align:center;padding-top:2px;margin:0 4px 4px 0;text-transform:uppercase;background:#fff}
 .badges .k{background:#111;color:#f7f3e8}
 .badges .a{background:#00e;color:#fff}
-small{font-family:"Courier New",monospace;color:#555}
