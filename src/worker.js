@@ -78,8 +78,9 @@ function page(status, title, text) {
   const body = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${title} - Kevin Gould</title></head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<title>${title} - Kevin Gould</title>
+<link rel="stylesheet" href="/style.css"></head>
+<body>
 <h1>${title}</h1>
 <p>${text}</p>
 <p><a href="/">&lt;&lt; Back to the home page</a></p>

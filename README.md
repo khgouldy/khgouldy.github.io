@@ -1,10 +1,10 @@
 # khgould.com
 
 Kevin Gould's personal page. Deliberately plain, old-school HTML: no framework,
-no build step, no CSS to speak of, no JavaScript in the page.
+no build step, one tiny hand-written stylesheet (~2 KB), no JavaScript in the page.
 
 ```
-public/        the static pages (index.html, thanks.html, 404.html)
+public/        the static pages (index.html, thanks.html, 404.html, style.css)
 src/worker.js  Cloudflare Worker: serves public/ and handles POST /contact
 wrangler.jsonc Worker config (static assets, send_email + rate-limit bindings)
 ```
