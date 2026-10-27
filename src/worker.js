@@ -42,7 +42,10 @@ async function handleContact(request, env, url) {
   const message = field("message");
 
   // Honeypot: real people never fill this hidden field. Pretend it worked.
-  if (field("website")) return Response.redirect(new URL("/thanks", url).toString(), 303);
+  if (field("website")) {
+    console.warn("contact honeypot field filled; message dropped");
+    return Response.redirect(new URL("/thanks", url).toString(), 303);
+  }
 
   const emailOk = /^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]+$/.test(email);
   if (!name || !message || !emailOk) {
@@ -59,13 +62,15 @@ async function handleContact(request, env, url) {
 
   const oneLine = (s) => s.replace(/[\r\n]+/g, " ");
   try {
-    await env.EMAIL.send({
+    const sent = await env.EMAIL.send({
       from: { email: env.CONTACT_FROM, name: "khgould.com contact form" },
       to: env.CONTACT_TO,
       replyTo: { email: oneLine(email), name: oneLine(name) },
       subject: `khgould.com: message from ${oneLine(name)}`.slice(0, 200),
       text: `From: ${name} <${email}>\nSent via: ${url.host}\n\n${message}\n`,
     });
+    // Log the recipient domain only, never the full address.
+    console.log("contact sent", { messageId: sent && sent.messageId, toDomain: env.CONTACT_TO.split("@").pop() });
   } catch (err) {
     console.error("contact send failed", err && (err.code || err.message || err));
     return page(502, "Sorry", "Your message couldn't be sent. Please try again later.");
