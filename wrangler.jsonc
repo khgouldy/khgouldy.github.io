@@ -18,6 +18,15 @@
   // verified in this Cloudflare account's Email Routing. The actual addresses
   // are Worker secrets (CONTACT_TO, CONTACT_FROM), set with `wrangler secret put`.
   "send_email": [{ "name": "EMAIL" }],
+  // Every contact submission is recorded here (see migrations/ and the README).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "khgould-contacts",
+      "database_id": "a673b3af-fc0e-45bc-a70c-f06e8d60181d",
+      "migrations_dir": "migrations"
+    }
+  ],
   "ratelimits": [
     { "name": "CONTACT_LIMITER", "namespace_id": "7201", "simple": { "limit": 5, "period": 60 } }
   ],

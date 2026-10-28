@@ -6,7 +6,8 @@ no build step, one tiny hand-written stylesheet (~2 KB), no JavaScript in the pa
 ```
 public/        the static pages (index.html, thanks.html, 404.html, style.css)
 src/worker.js  Cloudflare Worker: serves public/ and handles POST /contact
-wrangler.jsonc Worker config (static assets, send_email + rate-limit bindings)
+wrangler.jsonc Worker config (static assets, send_email, rate-limit + D1 bindings)
+migrations/    D1 schema for the contact log
 ```
 
 ## Contact form
@@ -25,6 +26,24 @@ Workers Free plan. The addresses are Worker secrets, not committed:
 npx wrangler secret put CONTACT_TO     # a verified Email Routing destination address
 npx wrangler secret put CONTACT_FROM   # an address on a domain with Email Routing enabled
 ```
+
+## Contact log (D1)
+
+Every POST to `/contact` is also recorded as a row in the `khgould-contacts`
+D1 database (binding `DB`, table `contacts`, schema in `migrations/`). That
+includes spam-trap drops, invalid posts and failed sends, not only the ones
+that were emailed. `status` is one of `sent`, `send_failed`, `spam_dropped`,
+`invalid` or `rate_limited`. No IP addresses are stored. The row is written
+in the background, and a database error is logged but never blocks the email.
+
+List the latest contacts:
+
+```bash
+npx wrangler d1 execute khgould-contacts --remote --command "SELECT id, created_at, status, name, email, substr(message, 1, 80) AS message, country, error FROM contacts ORDER BY id DESC LIMIT 20"
+```
+
+Only the real messages: add `WHERE status = 'sent'`. Apply new migrations with
+`npx wrangler d1 migrations apply khgould-contacts --remote`.
 
 ## Preview / deploy
 
